@@ -1,6 +1,22 @@
 import express from "express";
 const app = express();
 
+const products = [
+  {id:1, name:"Sản phẩm 1", price: 100},
+  {id:2, name:"Sản phẩm 2", price: 200},
+  {id:3, name:"Sản phẩm 3", price: 300},
+]
+
+app.get('/',(request, response)=>{
+  return response.send("Hello chinhpd5")
+})
+
+app.get('/product',(req,res) => {
+  return res.json(products)
+})
+
+
+
 export const viteNodeApp = app;
 
 
