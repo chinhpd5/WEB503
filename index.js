@@ -12,9 +12,14 @@ app.get('/',(request, response)=>{
 })
 
 app.get('/product',(req,res) => {
+  console.log(req.query);
   return res.json(products)
 })
 
+app.get('/product/:id',(req,res) => {
+  console.log(req.params);
+  return res.json(products)
+})
 
 
 export const viteNodeApp = app;
