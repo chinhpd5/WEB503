@@ -1,19 +1,18 @@
-const express = require('express')
-const app = express()
-const port = 3000
+import express from "express";
+const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+export const viteNodeApp = app;
 
 
-// b1: mở vsc cùng thư mục web503
+// b1: mở vsc cùng thư mục web503b
 // b2: mở terminal : npm init -y
 // b3: cài đặt: npm i express
 // b4: tạo file index.js và thêm nội dung
 // b5: tại terminal chạy: node index.js
 // b6: mở trình duyệt: http://localhost:3000 
+
+// b7: cài đặt thư viện: npm install vite vite-plugin-node -D
+// b8: tạo file: vite.config.ts và thêm nội dung
+// b9: thay đổi nội dung trong index.js
+// b10: thêm "dev": "vite" vào script trong package.json
+// b11: npm run dev
