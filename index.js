@@ -22,7 +22,9 @@ app.get('/product/:id',(req,res) => {
 })
 
 
-export const viteNodeApp = app;
+app.listen(3000, () => {
+    console.log(`Server is running on port http://localhost:3000`);
+});
 
 
 // b1: mở vsc cùng thư mục web503b
