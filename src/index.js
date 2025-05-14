@@ -3,6 +3,8 @@ import productRouter from './routers/product.router'
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded())
 
 app.get('/',(request, response)=>{
   return response.send("Hello chinhpd5")
