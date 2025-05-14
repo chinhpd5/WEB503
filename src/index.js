@@ -1,26 +1,14 @@
 import express from "express";
+import productRouter from './routers/product.router'
+
 const app = express();
 
-const products = [
-  {id:1, name:"Sản phẩm 1", price: 100},
-  {id:2, name:"Sản phẩm 2", price: 200},
-  {id:3, name:"Sản phẩm 3", price: 300},
-]
 
 app.get('/',(request, response)=>{
   return response.send("Hello chinhpd5")
 })
 
-app.get('/product',(req,res) => {
-  console.log(req.query);
-  return res.json(products)
-})
-
-app.get('/product/:id',(req,res) => {
-  console.log(req.params);
-  return res.json(products)
-})
-
+app.use('/',productRouter);
 
 app.listen(3000, () => {
     console.log(`Server is running on port http://localhost:3000`);
