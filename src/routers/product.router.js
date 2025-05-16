@@ -47,4 +47,13 @@ router.post('/products',(req,res)=> {
   // b3: Trả về mảng products đã được thêm
 })
 
+// Cập nhật sản phẩm
+router.put('/products/:id', (req,res) =>{
+
+})
+
+// Xóa sản phẩm
+router.delete('/products/:id',(req,res)=>{
+
+})
 export default router;
