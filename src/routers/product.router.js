@@ -1,7 +1,10 @@
 import express from 'express';
 import {
   getAllProduct,
-  getById
+  getById,
+  addProduct,
+  updateProduct,
+  deleteProduct
 } from '../controllers/product.controller'// destructuring
 
 const router = express.Router();
@@ -14,26 +17,12 @@ router.get('/products', getAllProduct)
 router.get('/products/:id', getById)
 
 // Thêm mới 1 sản phẩm
-router.post('/products',(req,res)=> {
-  // xử lý logic thêm mới
-
-  // b1: Lấy dữ liệu cần thêm mới
-  const data = req.body;
-  console.log(data);
-
-  // b2: Thêm mới vào products
-  
-  // b3: Trả về mảng products đã được thêm
-})
+router.post('/products',addProduct)
 
 // Cập nhật sản phẩm
-router.put('/products/:id', (req,res) =>{
-
-})
+router.put('/products/:id', updateProduct)
 
 // Xóa sản phẩm
-router.delete('/products/:id',(req,res)=>{
-
-})
+router.delete('/products/:id',deleteProduct)
 
 export default router;
