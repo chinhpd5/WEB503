@@ -1,38 +1,17 @@
 import express from 'express';
+import {
+  getAllProduct,
+  getById
+} from '../controllers/product.controller'// destructuring
+
 const router = express.Router();
 
-const products = [
-  {id:1, name:"Sản phẩm 1", price: 100},
-  {id:2, name:"Sản phẩm 2", price: 200},
-  {id:3, name:"Sản phẩm 3", price: 300},
-]
 
 // Lấy danh sách sản phẩm
-router.get('/products', (req,res) => {
-  return res.json(products)
-})
+router.get('/products', getAllProduct)
 
 // Lấy thông tin chi tiết sản phẩm
-router.get('/products/:id', (req,res) => {
-  // b1: Lấy id trên url
-  const id = req.params.id;
-
-  // console.log(id);
-
-  // b2: Tìm sản phẩm sử dụng find trong products
-  const product = products.find((item) => {
-    return item.id == id
-  })
-  // const product = products.find( item => item.id == id)
-  // console.log(product);
-  
-  // b3: Kiểm tra nếu không có product thì thông báo
-  if(!product){
-    return res.json({message: "Không tìm thấy sản phẩm"})
-  }
-  // b4: Trả về sản phẩm nếu có
-  return res.json(product)
-})
+router.get('/products/:id', getById)
 
 // Thêm mới 1 sản phẩm
 router.post('/products',(req,res)=> {
@@ -56,4 +35,5 @@ router.put('/products/:id', (req,res) =>{
 router.delete('/products/:id',(req,res)=>{
 
 })
+
 export default router;
