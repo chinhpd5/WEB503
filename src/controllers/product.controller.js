@@ -1,46 +1,62 @@
+import Product from "../models/product.model"
+
 let products = [
   {id:1, name:"Sản phẩm 1", price: 100},
   {id:2, name:"Sản phẩm 2", price: 200},
   {id:3, name:"Sản phẩm 3", price: 300},
 ]
 
-export const getAllProduct = (req,res) => {
-  res.status(200).json(products)
-}
+export const getAllProduct = async (req,res) => {
+  try {
+    const products = await Product.find();
 
-export const getById = (req,res) => {
-  // b1: Lấy id trên url
-  const id = req.params.id;
+    return res.status(200).json({
+      message: "Lấy danh sách thành công",
+      data: products
+    })
 
-  // console.log(id);
-
-  // b2: Tìm sản phẩm sử dụng find trong products
-  const product = products.find((item) => {
-    return item.id == id
-  })
-  // const product = products.find( item => item.id == id)
-  // console.log(product);
-  
-  // b3: Kiểm tra nếu không có product thì thông báo
-  if(!product){
-    return res.status(400).json({message: "Không tìm thấy sản phẩm"})
+  } catch (error) {
+    
   }
-  // b4: Trả về sản phẩm nếu có
-  return res.status(200).json(product)
 }
 
-export const addProduct = (req,res)=> {
-  // xử lý logic thêm mới
+export const getById = async (req,res) => {
+  try {
+    const product = await Product.findById(req.params.id);
 
-  // b1: Lấy dữ liệu cần thêm mới
-  const data = req.body;
-  // console.log(data);
-  
-  // b2: Thêm mới vào products
-  products.push(data)
-  
-  // b3: Trả về mảng products đã được thêm
-  return res.status(201).json(products)
+    if(!product){
+      return res.status(404).json({message: "Không tìm thấy sản phẩm"})
+    }
+
+    return res.status(200).json({
+      message: "Lấy dữ liệu thành công",
+      data: product
+    })
+
+  } catch (error) {
+    
+  }
+}
+
+export const addProduct = async (req,res)=> {
+  try {
+    // console.log(req.body);
+
+    // Cách 1:
+    // const product = new Product(req.body);
+    // await product.save();
+
+    // Cách 2:
+    const newProduct = await Product.create(req.body)
+
+    return res.status(201).json({
+      message: "Thêm thành công",
+      data: newProduct
+    })
+
+  } catch (error) {
+    
+  }
 }
 
 export const updateProduct = (req, res) =>{
