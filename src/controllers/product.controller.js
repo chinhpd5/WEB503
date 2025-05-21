@@ -16,7 +16,7 @@ export const getAllProduct = async (req,res) => {
     })
 
   } catch (error) {
-    
+    return res.status(400).json({message: error.message})
   }
 }
 
@@ -34,7 +34,7 @@ export const getById = async (req,res) => {
     })
 
   } catch (error) {
-    
+    return res.status(400).json({message: error.message})
   }
 }
 
@@ -55,52 +55,45 @@ export const addProduct = async (req,res)=> {
     })
 
   } catch (error) {
+    return res.status(400).json({message: error.message})
+  }
+}
+
+export const updateProduct = async (req, res) =>{
+  try {
+    const updateProduct = await Product.findByIdAndUpdate(req.params.id, req.body,{
+      new: true, // trả về giá trị sau khi cập nhật
+      runValidators: true, // kiểm tra validate
+    })
+
+    if(!updateProduct){
+      return res.status(400).json({message: "Cập nhật sản phẩm thất bại"})
+    }
+
+    return res.status(200).json({
+      message: "Cập nhật thành công",
+      data: updateProduct
+    })
+
+  } catch (error) {
+    return res.status(400).json({message: error.message})
+  }
+}
+
+export const deleteProduct = async (req,res) =>{
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
     
+    if(!product){
+      return res.status(404).json({message: "Không tìm thấy sản phẩm"})
+    }
+
+    return res.status(200).json({
+      message: "Xóa sản phẩm thành công"
+    })
+  } catch (error) {
+    return res.status(400).json({message: error.message})
   }
-}
-
-export const updateProduct = (req, res) =>{
-  // b1: lấy id
-  const id = req.params.id;
-  // console.log(id);
-
-  // b2: lấy data
-  const data = req.body;
-  // console.log(data);
-  
-  // b3: Kiểm tra sản phẩm có tồn tại hay không
-  const product = products.find((item) =>{
-    return item.id == id
-  })
-
-  if(!product){
-    return res.status(400).json({message: "Không tồn tại sản phẩm"})
-  }
-
-  // b4: Nếu có sản phẩm thì cập nhật
-  product.name = data.name;
-  product.price = data.price;
-
-  // b5: Trả về dữ liệu
-  return res.json(products)
-}
-
-export const deleteProduct = (req,res) =>{
-  // b1: lấy id
-  const id = req.params.id;
-  // console.log(id);
-
-  // b2: Kiểm tra sản phẩm có tồn tại hay không?
-  const product = products.find(item => item.id == id);
-  if(!product){
-    return res.status(400).json({message: "Không tìm thấy sản phẩm"})
-  }
-
-  // b3: Xóa sản phẩm
-  products = products.filter(item => item.id != id)
-  
-  // b4: Trả về mảng
-  return res.json(products)
 }
 
 // export {getAllProduct}
