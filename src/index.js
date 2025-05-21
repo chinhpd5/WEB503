@@ -1,7 +1,13 @@
 import express from "express";
-import productRouter from './routers/product.router'
+import mongoose from "mongoose";
+import productRouter from './routers/product.router';
 
 const app = express();
+
+// kết nối cơ sở dữ liệu
+mongoose.connect('mongodb://localhost:27017/web503_01')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Could not connect to MongoDB:', err));
 
 app.use(express.json());
 app.use(express.urlencoded())
