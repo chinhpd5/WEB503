@@ -1,7 +1,13 @@
-# NodeJS và MongoDB
+# Thực hành CRUD với MongoDB và Mongoose
 
+## Mục tiêu
+- Thực hành xây dựng API CRUD đầy đủ với MongoDB và Mongoose.
+- Hiểu cách tổ chức code với models, controllers, và routers.
+- Làm quen với cách xử lý lỗi và phản hồi trạng thái HTTP.
+
+---
 ## MongoDB là gì?
-- MongoDB là một cơ sở dữ liệu NoSQL, lưu trữ dữ liệu dưới dạng document (tài liệu) theo định dạng JSON. 
+- MongoDB là một hệ quản trị cơ sở dữ liệu NoSQL, lưu trữ dữ liệu dưới dạng document (tài liệu) theo định dạng JSON. 
 - MongoDB được thiết kế để lưu trữ dữ liệu có cấu trúc linh hoạt và có khả năng mở rộng cao.
 
 ### NoSQL là gì?
@@ -51,52 +57,70 @@
 
 - Ngược lại ODM là ORM (Object-Relational Mapping) thư viện dành cho các hệ quản trị cơ sở dữ liệu quan hệ (SQL) (MySQL, SQL Server, PostgreSQL,...)
 
+---
+## 2 Hướng dẫn thực hành
+
 ### Cài đặt:
 ```bash
 npm install mongoose
 ```
 
 ### Kết nối MongoDB:
+- Tại `src/index.js`
 ```javascript
 import mongoose from 'mongoose'
 
-mongoose.connect('mongodb://localhost:27017/my_database', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+mongoose.connect('mongodb://localhost:27017/my_database')
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Could not connect to MongoDB:', err));
 ```
 
-
----
-## Schema và Model trong Mongoose
-
 ### Định nghĩa Schema:
+- Tạo Schema với các kiểu dữ liệu: `String`, `Number`, `Date`, `Buffer`, `Boolean`, `ObjectId`, `Array`, `Mixed` ...
+- Tùy chỉnh schema với các thuộc tính như: `required`, `default`, `enum`, `validate`, `min`, `max`, `unique`...
+- Tại `src/models` tạo file `product.model.product.js`:
 ```javascript
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema(
+{
   name: {
     type: String,
-    required: true
+    required: [true, "Tên sản phẩm là bắt buộc"],
+    trim: true,
+    maxlength: [200, "Tên sản phẩm không được vượt quá 200 ký tự"],
   },
-  email: {
+  description: {
     type: String,
-    required: true,
-    unique: true
+    required: [true, "Mô tả sản phẩm là bắt buộc"],
   },
-  age: {
+  price: {
     type: Number,
-    min: 0
+    required: [true, "Giá sản phẩm là bắt buộc"],
+    min: [0, "Giá sản phẩm không được âm"],
+},
+  images: [String],
+  stock: {
+    type: Number,
+    required: [true, "Số lượng tồn kho là bắt buộc"],
+    min: [0, "Số lượng tồn kho không được âm"],
+    default: 0,
+},
+  status: {
+    type: String,
+    enum: ["draft", "published", "archived"],
+    default: "draft",
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
+  featured: {
+    type: Boolean,
+    default: false,
   }
-});
+},
+{ timestamps: true, versionKey: false }
+);
 
-// Tạo model từ schema
-const User = mongoose.model('User', userSchema);
+const Product = mongoose.model("Product", productSchema);
+
+export default Product;
 ```
 

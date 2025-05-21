@@ -1,4 +1,9 @@
-# Buổi 3: MVC, Controller
+# Buổi 3: MVC, Controller 
+
+## Mục tiêu
+- Hiểu mô hình MVC
+- Xây dựng thành phần Controller trong MVC
+- Tìm hiểu phản hồi trạng thái (http) trong Controller
 
 ## Mô hình MVC
 - Mô hình MVC (Model - View - Controller) trong Express.js là một cách tổ chức mã nguồn giúp tách biệt rõ ràng giữa:
