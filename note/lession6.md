@@ -102,7 +102,6 @@ export const updateProductSchema = createProductSchema.fork(
 - Tạo file `validateRequest.js` và định nghĩa.
 
 ```js
-// filepath: /FPL-WEB503/src/middleware/validateRequest.js
 import Joi from "joi";
 
 export const validateRequest = (schema, target = "body") => {

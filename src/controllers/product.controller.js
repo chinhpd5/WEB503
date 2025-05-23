@@ -1,4 +1,5 @@
 import Product from "../models/product.model"
+import {createProductSchema} from '../validations/product.validation'
 
 export const getAllProduct = async (req,res) => {
   try {
@@ -41,6 +42,17 @@ export const addProduct = async (req,res)=> {
     // await product.save();
 
     // Cách 2:
+    const {error,value} = createProductSchema.validate(req.body,{
+      abortEarly: false, // thông báo tất cả các lỗi nếu có
+      stripUnknown: true, // loại bỏ những thuộc tính dư thừa
+    })
+
+    if(error){
+      return res.status(400).json({
+        message: error.details.map(item => item.message)
+      })
+    }
+    
     const newProduct = await Product.create(req.body)
 
     return res.status(201).json({
