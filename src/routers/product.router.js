@@ -7,6 +7,9 @@ import {
   deleteProduct
 } from '../controllers/product.controller'// destructuring
 
+import {validateRequest} from '../middlewares/validateRequest'
+import {createProductSchema,updateProductSchema} from '../validations/product.validation'
+
 const router = express.Router();
 
 
@@ -17,10 +20,10 @@ router.get('/products', getAllProduct)
 router.get('/products/:id', getById)
 
 // Thêm mới 1 sản phẩm
-router.post('/products',addProduct)
+router.post('/products', validateRequest(createProductSchema), addProduct)
 
 // Cập nhật sản phẩm
-router.put('/products/:id', updateProduct)
+router.put('/products/:id', validateRequest(updateProductSchema), updateProduct)
 
 // Xóa sản phẩm
 router.delete('/products/:id',deleteProduct)
