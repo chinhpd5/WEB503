@@ -1,5 +1,4 @@
 import Joi from 'joi'
-import { Schema } from 'mongoose'
 
 export const createProductSchema = Joi.object({
   name: Joi.string().required().min(5).messages({
