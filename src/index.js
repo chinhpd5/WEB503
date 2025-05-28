@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import productRouter from './routers/product.router';
+import authRouter from './routers/auth.router'
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get('/',(request, response)=>{
 })
 
 app.use('/',productRouter);
+app.use('/',authRouter);
 
 app.listen(3000, () => {
     console.log(`Server is running on port http://localhost:3000`);
