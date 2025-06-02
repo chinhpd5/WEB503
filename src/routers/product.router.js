@@ -9,9 +9,11 @@ import {
 
 import {validateRequest} from '../middlewares/validateRequest'
 import {createProductSchema,updateProductSchema} from '../validations/product.validation'
+import { checkAuth } from '../middlewares/checkAuth';
 
 const router = express.Router();
 
+router.use(checkAuth)
 
 // Lấy danh sách sản phẩm
 router.get('/products', getAllProduct)
