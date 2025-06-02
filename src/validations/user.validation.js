@@ -38,4 +38,18 @@ export const  registerSchema = Joi.object({
   })
 })
 
+export const loginSchema = Joi.object({
+  email: Joi.string().required().email().messages({
+    "any.required": "Email là bắt buộc",
+    // "string.empty": "Email không để trống",
+    // "string.base": "Email là kiểu chuỗi",
+    "string.email": "Email sai định dạng"
+  }),
+  password: Joi.string().required().min(6).messages({
+    "any.required": "Password là bắt buộc",
+    "string.min": "Password cần tối thiểu {#limit}",
+    "string.base": "Password cần có kiểu chuỗi"
+  })
+})
+
 

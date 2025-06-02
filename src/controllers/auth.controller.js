@@ -1,5 +1,6 @@
 import User from '../models/user.model'
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'
 
 export const register = async (req,res) =>{
   try {
@@ -23,6 +24,39 @@ export const register = async (req,res) =>{
     })
     
   } catch (error) {
+    return res.status(500).json({message: error.message})
+  }
+}
+
+export const login = async (req,res) => {
+  try {
+    // kiểm tra tài khoản
+    const user = await User.findOne({email: req.body.email}).select("+password");
+    // console.log(user);
+    if(!user){
+      return res.status(400).json({message: "Sai tài khoản"})
+    }
+
+    // kiểm tra mật khẩu
+    const isMatch = await bcrypt.compare(req.body.password,user.password);
+    if(!isMatch){
+      return res.status(400).json({message: "Sai mật khẩu"})
+    }
+
+    // tạo token - jwt
+    const token = jwt.sign({id: user.id},"123456",{expiresIn: "5m"})
+    // console.log(token);
+
+    // thông báo
+    user.password = undefined;
+    return res.status(200).json({
+      message: "Đăng nhập thành công",
+      token,
+      data: user
+    })
+    
+  } catch (error) {
+    // console.log(error);
     return res.status(500).json({message: error.message})
   }
 }
