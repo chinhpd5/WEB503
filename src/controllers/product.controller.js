@@ -6,14 +6,17 @@ export const getAllProduct = async (req,res) => {
       keyword,
       minPrice,
       maxPrice,
+      status,
+      featured,
     } = req.query; // destructuring
-    
+
     const query = {};
 
     if(keyword){
+      query.$or= [];
       // so sánh tương đối
       const regex = new RegExp(keyword, "i");// i: Không phân biệt chữ hoa, chữ thường
-      query.name = regex;
+      query.$or.push({name: regex}, {description: regex});
     }
 
     if(minPrice !== undefined || maxPrice !== undefined){
@@ -25,6 +28,15 @@ export const getAllProduct = async (req,res) => {
       if(maxPrice){
         query.price.$lte= maxPrice
       }
+    }
+
+    if(status){
+      query.status = {}
+      query.status.$in = Array.isArray(status) ? status : [status]
+    }
+
+    if(featured !== undefined){
+      query.featured = featured
     }
 
     console.log(query);
