@@ -17,8 +17,8 @@ app.get('/',(request, response)=>{
   return response.send("Hello chinhpd5")
 })
 
-app.use('/',productRouter);
 app.use('/',authRouter);
+app.use('/',productRouter);
 
 app.listen(3000, () => {
     console.log(`Server is running on port http://localhost:3000`);
