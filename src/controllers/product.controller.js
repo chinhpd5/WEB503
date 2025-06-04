@@ -2,7 +2,35 @@ import Product from "../models/product.model"
 
 export const getAllProduct = async (req,res) => {
   try {
-    const products = await Product.find();
+    const {
+      keyword,
+      minPrice,
+      maxPrice,
+    } = req.query; // destructuring
+    
+    const query = {};
+
+    if(keyword){
+      // so sánh tương đối
+      const regex = new RegExp(keyword, "i");// i: Không phân biệt chữ hoa, chữ thường
+      query.name = regex;
+    }
+
+    if(minPrice !== undefined || maxPrice !== undefined){
+      query.price = {}
+      if(minPrice){
+        query.price.$gte= minPrice
+      }
+
+      if(maxPrice){
+        query.price.$lte= maxPrice
+      }
+    }
+
+    console.log(query);
+    
+    
+    const products = await Product.find(query);
 
     return res.status(200).json({
       message: "Lấy danh sách thành công",
