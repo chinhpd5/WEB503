@@ -44,7 +44,7 @@ export const login = async (req,res) => {
     }
 
     // tạo token - jwt
-    const token = jwt.sign({id: user.id},"123456",{expiresIn: "5m"})
+    const token = jwt.sign({id: user.id},"123456",{expiresIn: "2h"})
     // console.log(token);
 
     // thông báo
