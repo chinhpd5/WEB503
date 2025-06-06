@@ -185,12 +185,3 @@ User.find().select("name email")
 // Ẩn trường _id
 User.find().select("name email -_id")
 ```
-
-## Truy vấn nâng cao với populate
-
-```js
-// Giả sử user có trường `departmentId` liên kết với bảng Department
-User.find().populate('departmentId');
-```
-
-
