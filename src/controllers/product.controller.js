@@ -9,7 +9,9 @@ export const getAllProduct = async (req,res) => {
       status,
       featured,
       sortBy,
-      sortOrder
+      sortOrder,
+      page = 1,
+      limit = 10
     } = req.query; // destructuring
 
     const query = {};
@@ -50,13 +52,28 @@ export const getAllProduct = async (req,res) => {
 
     console.log(sort);
 
-    const products = await Product
-      .find(query)
-      .sort(sort);
+    const skip = (page - 1) * limit;
+
+    // const products = await Product
+    //   .find(query)
+    //   .sort(sort)
+    //   .skip(skip)
+    //   .limit(limit)
+    //   // .select("name price quantity")
+
+    // const countProduct = await Product.countDocuments(query);
+
+
+    const [products, countProduct] = await Promise.all([
+      Product.find(query).sort(sort).skip(skip).limit(limit)
+      ,
+      Product.countDocuments(query)
+    ])
 
     return res.status(200).json({
       message: "Lấy danh sách thành công",
-      data: products
+      data: products,
+      totalPage: Math.ceil(countProduct/limit)
     })
 
   } catch (error) {
