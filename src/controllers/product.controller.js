@@ -8,6 +8,8 @@ export const getAllProduct = async (req,res) => {
       maxPrice,
       status,
       featured,
+      sortBy,
+      sortOrder
     } = req.query; // destructuring
 
     const query = {};
@@ -40,9 +42,17 @@ export const getAllProduct = async (req,res) => {
     }
 
     console.log(query);
-    
-    
-    const products = await Product.find(query);
+
+    let sort = {};
+    if(sortBy){
+      sort = {[sortBy] : sortOrder == 'asc' ? 1 : -1}
+    }
+
+    console.log(sort);
+
+    const products = await Product
+      .find(query)
+      .sort(sort);
 
     return res.status(200).json({
       message: "Lấy danh sách thành công",
