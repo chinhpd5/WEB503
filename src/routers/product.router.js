@@ -4,7 +4,8 @@ import {
   getById,
   addProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getAllProductWithPaginate
 } from '../controllers/product.controller'// destructuring
 
 import {validateRequest} from '../middlewares/validateRequest'
@@ -16,6 +17,7 @@ const router = express.Router();
 router.use(checkAuth)
 // Lấy danh sách sản phẩm
 router.get('/products', getAllProduct)
+router.get('/products/with-paginate', getAllProductWithPaginate)
 
 // Lấy thông tin chi tiết sản phẩm
 router.get('/products/:id', getById)
