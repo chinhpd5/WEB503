@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import productRouter from './routers/product.router';
 import authRouter from './routers/auth.router';
 import commonRouter from './routers/common.router';
+import path from 'path';
 
 const app = express();
 
@@ -12,7 +13,8 @@ mongoose.connect('mongodb://localhost:27017/web503_01')
   .catch(err => console.error('Could not connect to MongoDB:', err));
 
 app.use(express.json());
-app.use(express.urlencoded())
+app.use(express.urlencoded());
+app.use(express.static(path.join(__dirname,'uploads')));
 
 app.get('/',(request, response)=>{
   return response.send("Hello chinhpd5")
