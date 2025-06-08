@@ -4,11 +4,13 @@ import productRouter from './routers/product.router';
 import authRouter from './routers/auth.router';
 import commonRouter from './routers/common.router';
 import path from 'path';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 
 // kết nối cơ sở dữ liệu
-mongoose.connect('mongodb://localhost:27017/web503_01')
+mongoose.connect(process.env.CONNECT_MONGODB_URL)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Could not connect to MongoDB:', err));
 
@@ -24,8 +26,9 @@ app.use('/',authRouter);
 app.use('/',commonRouter);
 app.use('/',productRouter);
 
-app.listen(3000, () => {
-    console.log(`Server is running on port http://localhost:3000`);
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+    console.log(`Server is running on port http://localhost:${port}`);
 });
 
 

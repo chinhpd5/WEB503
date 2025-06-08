@@ -1,6 +1,8 @@
 import User from '../models/user.model'
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const register = async (req,res) =>{
   try {
@@ -44,7 +46,7 @@ export const login = async (req,res) => {
     }
 
     // tạo token - jwt
-    const token = jwt.sign({id: user.id},"123456",{expiresIn: "2h"})
+    const token = jwt.sign({id: user.id},process.env.KEY_SECRET,{expiresIn: "2h"})
     // console.log(token);
 
     // thông báo
