@@ -49,6 +49,12 @@ Chuẩn bị:
 npm install cloudinary dotenv
 ```
 - Tạo tài khoản trên `[text](https://cloudinary.com/)`.
+- Tạo file env:
+```
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+```
 
 Tạo `middleware` `uploadCloudinary` tại `src/middlewares/upload.js`
 ```js
@@ -57,6 +63,23 @@ import multer from 'multer';
 const storage = multer.memoryStorage();
 
 export const upload = multer({ storage });
+```
+
+Cấu hình `Cloudinary` tại `src/utils/cloudinary.js`:
+```js
+// src/utils/cloudinary.js
+import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+export default cloudinary;
 ```
 
 Sử lý `controller`:
