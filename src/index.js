@@ -22,7 +22,7 @@ app.use('/',authRouter);
 app.use('/',commonRouter);
 app.use('/',productRouter);
 
-app.listen(5000, () => {
+app.listen(3000, () => {
     console.log(`Server is running on port http://localhost:3000`);
 });
 
