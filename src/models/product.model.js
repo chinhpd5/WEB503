@@ -1,3 +1,4 @@
+import { ref } from "joi";
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2"
 
@@ -31,6 +32,10 @@ const productSchema = new mongoose.Schema({
   featured: {
     type: Boolean,
     default: false
+  },
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category"
   }
 },{
   versionKey: false, // loại bỏ verson của bản ghi (__v:1)
