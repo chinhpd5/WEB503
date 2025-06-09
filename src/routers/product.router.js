@@ -16,22 +16,22 @@ const router = express.Router();
 
 router.use(checkAuth)
 // Lấy danh sách sản phẩm
-router.get('/products', getAllProduct)
-router.get('/products/with-paginate', getAllProductWithPaginate)
+router.get('/', getAllProduct)
+router.get('/with-paginate', getAllProductWithPaginate)
 
 // Lấy thông tin chi tiết sản phẩm
-router.get('/products/:id', getById)
+router.get('/:id', getById)
 
 
 // Kiểm tra quyền "staff" hoặc "admin"
 router.use(checkPermission("staff","admin"))
 // Thêm mới 1 sản phẩm
-router.post('/products',validateRequest(createProductSchema), addProduct)
+router.post('/',validateRequest(createProductSchema), addProduct)
 
 // Cập nhật sản phẩm
-router.put('/products/:id', validateRequest(updateProductSchema), updateProduct)
+router.put('/:id', validateRequest(updateProductSchema), updateProduct)
 
 // Xóa sản phẩm
-router.delete('/products/:id',deleteProduct)
+router.delete('/:id',deleteProduct)
 
 export default router;

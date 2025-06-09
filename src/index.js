@@ -5,6 +5,7 @@ import authRouter from './routers/auth.router';
 import commonRouter from './routers/common.router';
 import path from 'path';
 import dotenv from 'dotenv';
+import categoryRouter from './routers/category.router';
 dotenv.config();
 
 const app = express();
@@ -22,9 +23,10 @@ app.get('/',(request, response)=>{
   return response.send("Hello chinhpd5")
 })
 
-app.use('/',authRouter);
+app.use('/auth',authRouter);
+app.use('/products',productRouter);
+app.use('/category',categoryRouter);
 app.use('/',commonRouter);
-app.use('/',productRouter);
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {

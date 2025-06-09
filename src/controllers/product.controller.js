@@ -1,4 +1,5 @@
-import Product from "../models/product.model"
+import Product from "../models/product.model";
+import Category from '../models/category.model';
 
 export const getAllProduct = async (req,res) => {
   try {
@@ -43,14 +44,14 @@ export const getAllProduct = async (req,res) => {
       query.featured = featured
     }
 
-    console.log(query);
+    // console.log(query);
 
     let sort = {};
     if(sortBy){
       sort = {[sortBy] : sortOrder == 'asc' ? 1 : -1}
     }
 
-    console.log(sort);
+    // console.log(sort);
 
     const skip = (page - 1) * limit;
 
@@ -65,7 +66,7 @@ export const getAllProduct = async (req,res) => {
 
 
     const [products, countProduct] = await Promise.all([
-      Product.find(query).sort(sort).skip(skip).limit(limit)
+      Product.find(query).sort(sort).skip(skip).limit(limit).populate("categoryId")
       ,
       Product.countDocuments(query)
     ])
