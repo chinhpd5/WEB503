@@ -9,27 +9,27 @@ import express from 'express';
 const router = express.Router();
 
 // Lấy danh sách sản phẩm
-router.get('/products',(request,response) => {
+router.get('/',(request,response) => {
   response.json(products)
 })
 
 //Lấy chi tiết sản phẩm
-router.get('/products/:id',(req,res) => {
+router.get('/:id',(req,res) => {
   res.send('Lấy chi tiết sản phẩm')
 })
 
 // Lấy danh sách sản phẩm
-router.post('/products',(req,res) => {
+router.post('/',(req,res) => {
   res.send("Thêm mới sản phẩm")
 })
 
 // Chỉnh sửa sản phẩm
-router.put('/products/:id',(req, res) => {
+router.put('/:id',(req, res) => {
   res.send("Cập nhật sản phẩm")
 })
 
 // Xóa sản phẩm
-router.delete('/products/:id',(req,res) => {
+router.delete('/:id',(req,res) => {
   res.send("Xóa sản phẩm")
 })
 

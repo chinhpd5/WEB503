@@ -7,7 +7,7 @@ app.get('/', (request, response)=> {
   response.send('Hello world')
 })
 
-app.use('/api', productRouter)
+app.use('/api/products', productRouter)
 
 
 app.listen(3000, () => {
