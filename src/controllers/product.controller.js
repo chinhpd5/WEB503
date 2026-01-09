@@ -43,3 +43,15 @@ export const getProductById = (req, res) => {
     messsage: "Lấy chi tiết sản phẩm thành công"
   })
 }
+
+export const addProduct = (req,res) => {
+  const data = req.body;
+  console.log(data);
+  products.push(data);
+
+  return res.status(201).json({
+    isSuccess: true,
+    data: products,
+    messsage: "Thêm mới thành công"
+  })
+}

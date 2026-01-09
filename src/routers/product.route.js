@@ -1,6 +1,7 @@
 import {
   getAllProduct,
-  getProductById
+  getProductById,
+  addProduct
 } from '../controllers/product.controller'
 
 const products = [
@@ -20,9 +21,7 @@ router.get('/',getAllProduct)
 router.get('/:id',getProductById)
 
 // Lấy danh sách sản phẩm
-router.post('/',(req,res) => {
-  res.send("Thêm mới sản phẩm")
-})
+router.post('/',addProduct)
 
 // Chỉnh sửa sản phẩm
 router.put('/:id',(req, res) => {
