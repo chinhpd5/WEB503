@@ -21,3 +21,25 @@ export const getAllProduct = (req, res) => {
     messsage: "Lấy danh sách thành công"
   })
 }
+
+export const getProductById = (req, res) => {
+  const id = req.params.id;
+  // console.log(id);
+  
+  const product = products.find((item) => {
+    return item.id == id
+  })
+
+  if(!product){
+    return res.status(404).json({
+      isSuccess: false,
+      messsage: "Không tìm thấy sản phẩm"
+    })
+  }
+
+  return res.status(200).json({
+    isSuccess: true,
+    data: product,
+    messsage: "Lấy chi tiết sản phẩm thành công"
+  })
+}

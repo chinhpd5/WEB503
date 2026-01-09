@@ -1,5 +1,6 @@
 import {
-  getAllProduct
+  getAllProduct,
+  getProductById
 } from '../controllers/product.controller'
 
 const products = [
@@ -16,9 +17,7 @@ const router = express.Router();
 router.get('/',getAllProduct)
 
 //Lấy chi tiết sản phẩm
-router.get('/:id',(req,res) => {
-  res.send('Lấy chi tiết sản phẩm')
-})
+router.get('/:id',getProductById)
 
 // Lấy danh sách sản phẩm
 router.post('/',(req,res) => {
