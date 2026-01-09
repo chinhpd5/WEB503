@@ -1,3 +1,7 @@
+import {
+  getAllProduct
+} from '../controllers/product.controller'
+
 const products = [
   {id: 1, name: 'product 1', price: 1000},
   {id: 2, name: 'product 2', price: 2000},
@@ -9,9 +13,7 @@ import express from 'express';
 const router = express.Router();
 
 // Lấy danh sách sản phẩm
-router.get('/',(request,response) => {
-  response.json(products)
-})
+router.get('/',getAllProduct)
 
 //Lấy chi tiết sản phẩm
 router.get('/:id',(req,res) => {
