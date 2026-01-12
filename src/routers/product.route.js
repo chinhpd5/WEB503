@@ -1,14 +1,10 @@
 import {
   getAllProduct,
   getProductById,
-  addProduct
+  addProduct,
+  updateProduct,
+  removeProduct
 } from '../controllers/product.controller'
-
-const products = [
-  {id: 1, name: 'product 1', price: 1000},
-  {id: 2, name: 'product 2', price: 2000},
-  {id: 3, name: 'product 3', price: 3000},
-]
 
 import express from 'express';
 
@@ -24,13 +20,9 @@ router.get('/:id',getProductById)
 router.post('/',addProduct)
 
 // Chỉnh sửa sản phẩm
-router.put('/:id',(req, res) => {
-  res.send("Cập nhật sản phẩm")
-})
+router.put('/:id',updateProduct)
 
 // Xóa sản phẩm
-router.delete('/:id',(req,res) => {
-  res.send("Xóa sản phẩm")
-})
+router.delete('/:id',removeProduct)
 
 export default router;

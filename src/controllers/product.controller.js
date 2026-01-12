@@ -55,3 +55,42 @@ export const addProduct = (req,res) => {
     messsage: "Thêm mới thành công"
   })
 }
+
+export const updateProduct = (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+  // console.log(id);
+  // console.log(data);
+
+  let findProduct = products.find(item => item.id == id);
+  if(!findProduct){
+    return res.status(404).json({
+      isSuccess: false,
+      messsage: "Không tìm thấy sản phẩm"
+    })
+  }
+
+  // update
+  findProduct.name = data.name;
+  findProduct.price = data.price;
+
+  return res.status(200).json({
+    isSuccess: true,
+    data: products,
+    messsage: "Cập nhật thành công"
+  })
+  
+}
+
+export const removeProduct = (req,res) => {
+  const id = req.params.id;
+  // console.log(id);
+  
+  products = products.filter(item => item.id != id);
+
+  return res.status(200).json({
+    isSuccess: true,
+    messsage: "Xóa thành công",
+    data: products
+  })
+}
