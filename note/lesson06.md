@@ -3,7 +3,7 @@
 Mục tiêu bài học:
 - Tìm hiểu cơ bản `Middleware` 
 - Cách sử dụng `Middleware`
-- Tìm hiểu `Middleware` Joi để validate dữ liệu
+- Tìm hiểu `Middleware` `Joi` để validate dữ liệu
 
 ## 1. Middleware là gì?
 `Middleware` là các hàm trung gian nằm giữa:
