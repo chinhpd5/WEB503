@@ -1,8 +1,12 @@
 import express from 'express'
 import productRouter from './routers/product.route';
-import postRouter from './routers/post.route'
+import postRouter from './routers/post.route';
+import connectDB from './configs/db_config';
 
 const app = express();
+
+// connect database:
+connectDB();
 
 app.use(express.json());
 

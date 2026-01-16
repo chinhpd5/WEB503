@@ -18,7 +18,8 @@
   "homepage": "https://github.com/chinhpd5/WEB503#readme",
   "description": "",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongoose": "^9.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
