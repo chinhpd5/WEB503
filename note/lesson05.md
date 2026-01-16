@@ -124,3 +124,104 @@ const Product = mongoose.model('Product', productSchema);
 
 export default Product;
 ```
+
+### 3.7.Truy vấn cơ bản với Mongoose
+
+#### 3.7.1. Truy vấn đọc dữ liệu (Read)
+1. Lấy tất cả document – `find()`
+```js
+User.find();
+```
+> Trả về mảng các `document`
+> Nếu không có dữ liệu → mảng rỗng `[]`
+
+2. Lấy theo điều kiện – `find(filter)`
+```js
+User.find({ age: 18 });
+```
+> Lấy tất cả user có age = 18
+
+3. Lấy một document – `findOne()`
+```js
+User.findOne({ email: 'test@gmail.com' });
+```
+> Trả về 1 `object`
+> Không tìm thấy → `null`
+
+4. Lấy theo ID – `findById()`
+```js
+User.findById(id);
+```
+> Dùng cho trường `_id`
+> Không tìm thấy → `null`
+
+#### 3.7.2. Truy vấn thêm dữ liệu (Create)
+1. Thêm mới document – `create()`
+```js
+User.create({
+  name: 'Anh Hai',
+  email: 'anhhai@gmail.com',
+  age: 30
+});
+```
+> Tự động `validate` theo `schema`
+> Trả về `document` vừa tạo
+
+2. Lưu bằng `save()`
+```js
+const user = new User({ name: 'An', email: 'an@gmail.com' });
+await user.save();
+```
+
+#### 3.7.3.Truy vấn cập nhật dữ liệu (Update)
+1. Cập nhật & trả về dữ liệu mới
+```js
+User.findByIdAndUpdate(
+  id, // cập nhật theo id
+  { name: 'name update',age: 40 }, // nội dung cần cập nhật
+  { new: true } // cấu hình trả về dữ liệu sau khi cập nhật
+);
+```
+> `{ new: true }` → trả về `document` sau khi cập nhật
+
+2. Cập nhật một – `updateOne()`
+```js
+User.updateOne(
+  { email: 'a@gmail.com' }, // điều kiện cập nhật
+  { age: 25 } // nội dung cập nhật
+);
+```
+
+3. Cập nhật nhiều – `updateMany()`
+```js
+User.updateMany(
+  { age: 18 }, // điều kiện cập nhật
+  { age: 19 }); // nội dung cập nhật
+```
+#### 3.7.4. Truy vấn xóa dữ liệu (Delete)
+1. Xóa một document
+```js
+User.deleteOne({ email: 'test@gmail.com' });
+```
+> `email: 'test@gmail.com'`: Điều kiện xóa
+
+2. Xóa theo ID
+```js
+User.findByIdAndDelete(id);
+```
+
+3. Xóa nhiều
+```js
+User.deleteMany({ age: { $lt: 18 } });
+```
+> `$lt: 18`: less than 18 (Nhỏ hơn 18)
+
+#### 3.7.5. Toán tử so sánh
+| Toán tử | Ý nghĩa             |
+| ------- | ------------------- |
+| `$gt`   | Lớn hơn             |
+| `$gte`  | Lớn hơn hoặc bằng   |
+| `$lt`   | Nhỏ hơn             |
+| `$lte`  | Nhỏ hơn hoặc bằng   |
+| `$ne`   | Khác                |
+| `$in`   | Nằm trong danh sách |
