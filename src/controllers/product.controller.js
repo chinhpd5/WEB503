@@ -1,25 +1,26 @@
+import Product from "../models/product.model";
+
 let products = [
   {id: 1, name: 'product 1', price: 1000},
   {id: 2, name: 'product 2', price: 2000},
   {id: 3, name: 'product 3', price: 3000},
 ]
 
-export const getAllProduct = (req, res) => {
-  // console.log(req.query);
-  const key = req.query.search;
-  
-  let newProducts = products;
-  if(key){
-    newProducts = products.filter((item)=>{
-      return item.name.includes(key)
+export const getAllProduct = async (req, res) => {
+  try {
+    const products = await Product.find(); // find(): trả về danh sách (Product)
+
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Lấy danh sách sản phẩm thành công",
+      data: products
+    })
+  } catch (error) {
+    return res.status(500).json({
+      isSuccess: false,
+      message: error.message
     })
   }
-
-  return res.status(200).json({
-    isSuccess: true,
-    data: newProducts,
-    messsage: "Lấy danh sách thành công"
-  })
 }
 
 export const getProductById = (req, res) => {
@@ -44,16 +45,33 @@ export const getProductById = (req, res) => {
   })
 }
 
-export const addProduct = (req,res) => {
-  const data = req.body;
-  console.log(data);
-  products.push(data);
+export const addProduct = async (req,res) => {
+  try {
+    const data = req.body;
 
-  return res.status(201).json({
-    isSuccess: true,
-    data: products,
-    messsage: "Thêm mới thành công"
-  })
+    // create: thêm mới 
+    // trả về 1 bản ghi dữ liệu nếu thêm thành công
+    const product = await Product.create(data);
+
+    if(!product){
+      return res.status(400).json({
+        isSuccess: false,
+        message: "Thêm Sản phẩm thất bại"
+      })
+    }
+
+    return res.status(201).json({
+      isSuccess: true,
+      message: "Thêm mới sản phẩm thành công",
+      data: product
+    })
+
+  } catch (error) {
+    return res.status(500).json({
+      isSuccess: false,
+      message: error.message
+    })
+  }
 }
 
 export const updateProduct = (req, res) => {
