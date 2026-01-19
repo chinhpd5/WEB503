@@ -1,11 +1,5 @@
 import Product from "../models/product.model";
 
-let products = [
-  {id: 1, name: 'product 1', price: 1000},
-  {id: 2, name: 'product 2', price: 2000},
-  {id: 3, name: 'product 3', price: 3000},
-]
-
 export const getAllProduct = async (req, res) => {
   try {
     const products = await Product.find(); // find(): trả về danh sách (Product)
