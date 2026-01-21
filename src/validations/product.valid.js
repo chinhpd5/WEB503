@@ -21,3 +21,8 @@ export const createProductSchema = Joi.object({
     "any.required": "slug cần bắt buộc",
   })
 })
+
+export const updateProductSchema = createProductSchema.fork(
+  ["name", "price","status","slug"], // kế thừa các thuộc tính từ createProduct
+  (schema)=> schema.optional() // loại bỏ required
+)

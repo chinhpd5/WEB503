@@ -46,21 +46,6 @@ export const getProductById = async (req, res) => {
 export const addProduct = async (req,res) => {
   try {
     const data = req.body;
-
-    const {error, value } = createProductSchema.validate(data,{
-      abortEarly: false // Không thông báo lỗi sớm
-    });
-
-    if(error){
-      const messages = error.details.map(item => item.message)
-      // console.log(messages);
-      return res.status(400).json({
-        isSuccess: false,
-        message: messages
-      })
-    }
-
-    // console.log(error);
     
     // create: thêm mới 
     // trả về 1 bản ghi dữ liệu nếu thêm thành công
