@@ -9,10 +9,10 @@ export const getAllProduct = async (req, res) => {
       minPrice,
       maxPrice,
       sortBy,
-      sortOrder = 'asc'
+      sortOrder = 'asc',
+      page=1,
+      limit= 10
     } = req.query;
-
-    console.log(search,status,minPrice,maxPrice);
 
     const query = {};
 
@@ -46,15 +46,28 @@ export const getAllProduct = async (req, res) => {
 
     // console.log(sort);
     
-    const products = await Product
-      .find(query)
-      .sort(sort) // sắp xếp
-      .select("name slug status -_id") // lựa chọn trường muốn lấy (- loại bỏ)
-    
+    // const products = await Product
+    //   .find(query)
+    //   .sort(sort) // sắp xếp
+    //   // .select("name slug status -_id") // lựa chọn trường muốn lấy (- :loại bỏ)
+    //   .skip((page-1)*limit)
+    //   .limit(limit)
+
+    // const countProduct = await Product.countDocuments(query);
+
+    const [products,countProduct] = await Promise.all([
+      Product.find(query).sort(sort).skip((page-1)*limit).limit(limit),
+      Product.countDocuments(query)
+    ])
+
     return res.status(200).json({
       isSuccess: true,
       message: "Lấy danh sách sản phẩm thành công",
-      data: products
+      data: {
+        data: products,
+        page,
+        totalPage: Math.ceil(countProduct/limit) // làm tròn lên
+      }
     })
   } catch (error) {
     return res.status(500).json({
