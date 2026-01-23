@@ -3,8 +3,41 @@ import {createProductSchema} from "../validations/product.valid"
 
 export const getAllProduct = async (req, res) => {
   try {
-    const products = await Product.find(); // find(): trả về danh sách (Product)
+    const {
+      search, 
+      status,
+      minPrice,
+      maxPrice
+    } = req.query;
 
+    console.log(search,status,minPrice,maxPrice);
+
+    const query = {};
+
+    if(search){
+      query.$or= [
+        {name: { $regex: search, $options: "i"}},
+        {slug: { $regex: search, $options: "i"}}
+      ]
+    }
+
+    if(status != undefined){
+      query.status = status
+    }
+
+    if(minPrice != undefined || maxPrice != undefined){
+      query.price = {};
+      if(minPrice != undefined)
+        query.price.$gte = minPrice
+
+      if(maxPrice != undefined)
+        query.price.$lte = maxPrice
+    }
+
+    console.log(query);
+
+    const products = await Product.find(query);
+    
     return res.status(200).json({
       isSuccess: true,
       message: "Lấy danh sách sản phẩm thành công",
