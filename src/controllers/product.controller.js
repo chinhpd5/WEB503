@@ -7,7 +7,9 @@ export const getAllProduct = async (req, res) => {
       search, 
       status,
       minPrice,
-      maxPrice
+      maxPrice,
+      sortBy,
+      sortOrder = 'asc'
     } = req.query;
 
     console.log(search,status,minPrice,maxPrice);
@@ -15,9 +17,9 @@ export const getAllProduct = async (req, res) => {
     const query = {};
 
     if(search){
-      query.$or= [
-        {name: { $regex: search, $options: "i"}},
-        {slug: { $regex: search, $options: "i"}}
+      query.$or= [ // $or: name hoặc slug
+        {name: { $regex: search, $options: "i"}}, // tìm kiếm từ khóa gần đúng theo name
+        {slug: { $regex: search, $options: "i"}} // tìm kiếm từ khóa gần đúng theo slug
       ]
     }
 
@@ -34,9 +36,20 @@ export const getAllProduct = async (req, res) => {
         query.price.$lte = maxPrice
     }
 
-    console.log(query);
+    // console.log(query);
 
-    const products = await Product.find(query);
+    const sort = {};
+    if(sortBy){
+      // sortBy = "abc"
+      sort[sortBy] = sortOrder == 'asc' ? 1 : -1;
+    }
+
+    // console.log(sort);
+    
+    const products = await Product
+      .find(query)
+      .sort(sort) // sắp xếp
+      .select("name slug status -_id") // lựa chọn trường muốn lấy (- loại bỏ)
     
     return res.status(200).json({
       isSuccess: true,
