@@ -20,7 +20,8 @@
   "dependencies": {
     "express": "^5.2.1",
     "joi": "^18.0.2",
-    "mongoose": "^9.1.4"
+    "mongoose": "^9.1.4",
+    "mongoose-paginate-v2": "^1.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",

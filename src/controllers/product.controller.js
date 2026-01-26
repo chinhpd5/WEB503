@@ -67,6 +67,74 @@ export const getAllProduct = async (req, res) => {
   }
 }
 
+export const getAllProductPaginate = async (req, res) => {
+   try {
+    const {
+      search, 
+      status,
+      minPrice,
+      maxPrice,
+      sortBy,
+      sortOrder = 'asc',
+      page=1,
+      limit= 10
+    } = req.query;
+
+
+    // Cấu hình bộ lọc
+    const query = {};
+
+    if(search){
+      query.$or= [ // $or: name hoặc slug
+        {name: { $regex: search, $options: "i"}}, // tìm kiếm từ khóa gần đúng theo name
+        {slug: { $regex: search, $options: "i"}} // tìm kiếm từ khóa gần đúng theo slug
+      ]
+    }
+
+    if(status != undefined){
+      query.status = status
+    }
+
+    if(minPrice != undefined || maxPrice != undefined){
+      query.price = {};
+      if(minPrice != undefined)
+        query.price.$gte = minPrice
+
+      if(maxPrice != undefined)
+        query.price.$lte = maxPrice
+    }
+
+    // Cấu hình sắp xếp
+    const sort = {};
+    if(sortBy){
+      sort[sortBy] = sortOrder == 'asc' ? 1 : -1;
+    }
+
+    const option = {
+      page,
+      limit,
+      sort,
+      populate: [
+       {'path': 'categoryId'}
+      ]
+    }
+
+    const data = await Product.paginate(query,option)
+
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Lấy danh sách thành công",
+      data
+    })
+    
+  } catch (error) {
+    return res.status(500).json({
+      isSuccess: false,
+      message: error.message
+    })
+  }
+}
+
 export const getProductById = async (req, res) => {
   try {
     const id = req.params.id;

@@ -1,5 +1,5 @@
-import { ref } from "joi";
 import mongoose from "mongoose";
+import paginate from "mongoose-paginate-v2";
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -27,6 +27,8 @@ const productSchema = new mongoose.Schema({
   versionKey: false, //không lưu trữ version
   timestamps: true, // có thêm thời tạo (createAt), sửa(updateAt)
 })
+
+productSchema.plugin(paginate)
 
 const Product = mongoose.model('product',productSchema) // kết nối schema (productSchema) với collection trong mongodb (product)
 

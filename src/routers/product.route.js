@@ -3,7 +3,8 @@ import {
   getProductById,
   addProduct,
   updateProduct,
-  removeProduct
+  removeProduct,
+  getAllProductPaginate
 } from '../controllers/product.controller';
 import {validateRequest} from "../middlewares/validate";
 import {createProductSchema,updateProductSchema} from "../validations/product.valid"
@@ -14,6 +15,8 @@ const router = express.Router();
 
 // Lấy danh sách sản phẩm
 router.get('/', getAllProduct)
+
+router.get('/paginate', getAllProductPaginate)
 
 //Lấy chi tiết sản phẩm
 router.get('/:id',getProductById)
