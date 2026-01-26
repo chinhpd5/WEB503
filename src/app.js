@@ -2,6 +2,7 @@ import express from 'express'
 import productRouter from './routers/product.route';
 import postRouter from './routers/post.route';
 import connectDB from './configs/db_config';
+import authRouter from "./routers/auth.route";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.get('/', (request, response)=> {
   response.send('Hello world')
 })
 
+app.use('/api/auth',authRouter);
 app.use('/api/products', productRouter);
 app.use('/api/posts', postRouter)
 
