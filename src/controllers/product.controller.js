@@ -1,5 +1,5 @@
 import Product from "../models/product.model";
-import {createProductSchema} from "../validations/product.valid"
+import Category from "../models/category.model"
 
 export const getAllProduct = async (req, res) => {
   try {
@@ -14,6 +14,8 @@ export const getAllProduct = async (req, res) => {
       limit= 10
     } = req.query;
 
+
+    // Cấu hình bộ lọc
     const query = {};
 
     if(search){
@@ -36,28 +38,16 @@ export const getAllProduct = async (req, res) => {
         query.price.$lte = maxPrice
     }
 
-    // console.log(query);
 
+    // Cấu hình sắp xếp
     const sort = {};
     if(sortBy){
-      // sortBy = "abc"
       sort[sortBy] = sortOrder == 'asc' ? 1 : -1;
     }
 
-    // console.log(sort);
-    
-    // const products = await Product
-    //   .find(query)
-    //   .sort(sort) // sắp xếp
-    //   // .select("name slug status -_id") // lựa chọn trường muốn lấy (- :loại bỏ)
-    //   .skip((page-1)*limit)
-    //   .limit(limit)
-
-    // const countProduct = await Product.countDocuments(query);
-
     const [products,countProduct] = await Promise.all([
-      Product.find(query).sort(sort).skip((page-1)*limit).limit(limit),
-      Product.countDocuments(query)
+      Product.find(query).sort(sort).skip((page-1)*limit).limit(limit).populate('categoryId'), // skip, limit: phân trang
+      Product.countDocuments(query) // đếm 
     ])
 
     return res.status(200).json({

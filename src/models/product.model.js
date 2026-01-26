@@ -1,3 +1,4 @@
+import { ref } from "joi";
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
@@ -17,6 +18,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true // không được trùng với bản ghi khác
+  },
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'category' // khóa ngoại sang bảng category
   }
 },{
   versionKey: false, //không lưu trữ version
