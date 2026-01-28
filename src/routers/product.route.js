@@ -6,12 +6,15 @@ import {
   removeProduct,
   getAllProductPaginate
 } from '../controllers/product.controller';
+import { checkAuth } from '../middlewares/auth';
 import {validateRequest} from "../middlewares/validate";
 import {createProductSchema,updateProductSchema} from "../validations/product.valid"
 
 import express from 'express';
 
 const router = express.Router();
+
+router.use(checkAuth);
 
 // Lấy danh sách sản phẩm
 router.get('/', getAllProduct)
