@@ -19,8 +19,10 @@
   "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.4",
     "mongoose-paginate-v2": "^1.9.1"
   },

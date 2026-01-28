@@ -3,6 +3,8 @@ import productRouter from './routers/product.route';
 import postRouter from './routers/post.route';
 import connectDB from './configs/db_config';
 import authRouter from "./routers/auth.route";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -20,6 +22,6 @@ app.use('/api/products', productRouter);
 app.use('/api/posts', postRouter)
 
 
-app.listen(3000, () => {
-    console.log(`Server is running on port http://localhost:3000`);
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is running on port http://localhost:${process.env.PORT}`);
 });

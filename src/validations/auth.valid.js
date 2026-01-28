@@ -24,3 +24,18 @@ export const registerSchema = Joi.object({
     "any.only": "role chỉ nhận 'user' hoặc 'admin' hoặc 'staff'"
   })
 })
+
+export const loginSchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    "any.required": "eamil là bắt buộc",
+    "string.base": "eamil phải có kiểu chuỗi",
+    "string.empty": "eamil không được để trống",
+    "string.email": "email sai định dạng"
+  }),
+  password: Joi.string().min(6).required().messages({
+    "any.required": "passwrod là bắt buộc",
+    "string.base": "passwrod phải có kiểu chuỗi",
+    "string.empty": "passwrod không được để trống",
+    "string.min": "passwrod cần tối thiểu {#limit} ký tự",
+  }),
+})
