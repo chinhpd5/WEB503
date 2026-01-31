@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
   }
 })
 
-export const upload = multer({ storage })
+export const uploadMiddlewareToDB = multer({ storage })
 ```
 Khai báo cho phép truy cập trực tiếp đường dẫn tĩnh tại `src/app.js`
 ```js
@@ -56,19 +56,12 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ```
 
-Tạo `middleware` `uploadCloudinary` tại `src/middlewares/upload.js`
-```js
-import multer from 'multer';
-
-const storage = multer.memoryStorage();
-
-export const upload = multer({ storage });
-```
-
 Cấu hình `Cloudinary` tại `src/utils/cloudinary.js`:
 ```js
 // src/utils/cloudinary.js
 import { v2 as cloudinary } from 'cloudinary';
+import dotenv from "dotenv"
+dotenv.config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -77,6 +70,14 @@ cloudinary.config({
 });
 
 export default cloudinary;
+```
+
+Tạo `middleware` `uploadMiddlewareCloudDinary` tại `src/middlewares/upload.js`
+```js
+import multer from 'multer';
+
+const storageCloudinary = multer.memoryStorage();
+export const uploadMiddlewareCloudDinary = multer({ storage: storageCloudinary });
 ```
 
 Sử lý `controller`:
@@ -102,4 +103,9 @@ export const uploadCloudinary = async (req,res) =>{
     return res.status(500).json({ error: 'Upload thất bại', details: err.message });
   }
 }
+```
+
+Tạo `Router` tại `routers/common.route.js`:
+```js
+router.post('/upload-dinary',uploadCloudDinary.single('image'),uploadCloudinary)
 ```
