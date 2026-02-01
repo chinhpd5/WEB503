@@ -6,7 +6,7 @@ import {
   removeProduct,
   getAllProductPaginate
 } from '../controllers/product.controller';
-import { checkAuth } from '../middlewares/auth';
+import { checkAuth, checkPermission } from '../middlewares/auth';
 import {validateRequest} from "../middlewares/validate";
 import {createProductSchema,updateProductSchema} from "../validations/product.valid"
 
@@ -16,6 +16,7 @@ const router = express.Router();
 
 router.use(checkAuth);
 
+router.use(checkPermission("user","admin","staff"))
 // Lấy danh sách sản phẩm
 router.get('/', getAllProduct)
 
@@ -25,12 +26,13 @@ router.get('/paginate', getAllProductPaginate)
 router.get('/:id',getProductById)
 
 // Lấy danh sách sản phẩm
-router.post('/',validateRequest(createProductSchema),addProduct)
+router.post('/',checkPermission("admin"),validateRequest(createProductSchema),addProduct)
 
 // Chỉnh sửa sản phẩm
-router.put('/:id',validateRequest(updateProductSchema),updateProduct)
+router.put('/:id',checkPermission("admin","staff"),validateRequest(updateProductSchema),updateProduct)
 
 // Xóa sản phẩm
-router.delete('/:id',removeProduct)
+router.delete('/:id',checkPermission("admin"),removeProduct)
+
 
 export default router;

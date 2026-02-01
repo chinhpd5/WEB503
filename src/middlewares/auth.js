@@ -1,4 +1,5 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import User from "../models/user.model"
 
 export const checkAuth = (req, res, next) =>{
   try {
@@ -37,5 +38,37 @@ export const checkAuth = (req, res, next) =>{
       isSuccess: false,
       message: error.message
     })
+  }
+}
+
+export const checkPermission = (...roles) =>{
+  return async (req,res, next) => {
+    console.log(roles);
+    console.log(req.user);
+    try {
+      const user = await User.findById(req.user.userId);
+      if(!user){
+        return res.status(401).json({
+          isSuccess: false,
+          message: "Không tìm thấy user, vui lòng đăng nhập lại"
+        })
+      }
+
+      const isPermission = roles.includes(user.role);
+      if(!isPermission){
+        return res.status(403).json({
+          isSuccess: false,
+          message: "Bạn không có quyền sử dụng chức năng này"
+        })
+      }
+        
+      next();
+    } catch (error) {
+      return res.status(500).json({
+        isSuccess: false,
+        message: error.message
+      })
+    }
+    
   }
 }
