@@ -18,3 +18,6 @@ const storage = multer.diskStorage({
 })
 
 export const uploadMiddlewareServer = multer({storage: storage})
+
+const storageCloudinary = multer.memoryStorage();
+export const uploadMiddlewareCloudDinary = multer({ storage: storageCloudinary });

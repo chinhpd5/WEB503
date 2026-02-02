@@ -25,7 +25,7 @@ router.get('/paginate', getAllProductPaginate)
 //Lấy chi tiết sản phẩm
 router.get('/:id',getProductById)
 
-// Lấy danh sách sản phẩm
+// Thêm mới sản phẩm
 router.post('/',checkPermission("admin"),validateRequest(createProductSchema),addProduct)
 
 // Chỉnh sửa sản phẩm

@@ -43,8 +43,8 @@ export const checkAuth = (req, res, next) =>{
 
 export const checkPermission = (...roles) =>{
   return async (req,res, next) => {
-    console.log(roles);
-    console.log(req.user);
+    // console.log(roles);
+    // console.log(req.user);
     try {
       const user = await User.findById(req.user.userId);
       if(!user){

@@ -1,4 +1,5 @@
 import Upload from "../models/upload.model"
+import cloudinary from "../utils/cloudinary"
 
 export const uploadToServer = async (req,res) =>{
   try {
@@ -20,5 +21,31 @@ export const uploadToServer = async (req,res) =>{
       isSuccess: false,
       message: error.message
     })
+  }
+}
+
+export const uploadCloudinary = async (req,res) =>{
+  try {
+    const fileStr = req.file.buffer.toString('base64');
+    const uploadedResponse = await cloudinary.uploader.upload(
+      `data:${req.file.mimetype};base64,${fileStr}`,
+      {
+        folder: 'web503' // tùy chọn, có thể bỏ
+      }
+    );
+
+    // Lưu trữ trong db
+    // ...
+    const upload = await Upload.create({image: uploadedResponse.secure_url})
+    
+    return res.status(200).json({
+      isSuccess: true,
+      message: 'Upload thành công!',
+      data: upload
+    });
+  } catch (err) {
+    console.log(err);
+    
+    return res.status(500).json({ error: 'Upload thất bại', details: err.message });
   }
 }
