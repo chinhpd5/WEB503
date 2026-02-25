@@ -14,9 +14,9 @@ import express from 'express';
 
 const router = express.Router();
 
-router.use(checkAuth);
+// router.use(checkAuth);
 
-router.use(checkPermission("user","admin","staff"))
+// router.use(checkPermission("user","admin","staff"))
 // Lấy danh sách sản phẩm
 router.get('/', getAllProduct)
 

@@ -5,13 +5,18 @@ import connectDB from './configs/db_config';
 import authRouter from "./routers/auth.route";
 import commonRouter from "./routers/common.route"
 import dotenv from "dotenv";
-import path from "path"
+import path from "path";
+import cors from "cors"
 dotenv.config();
 
 const app = express();
 
 // connect database:
 connectDB();
+
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
 
 app.use(express.urlencoded());
 app.use(express.json());
@@ -28,5 +33,5 @@ app.use('/api',commonRouter)
 
 
 app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server is running on port http://localhost:${process.env.PORT}`);
+    console.log(`Server is running on port http://localhost:${process.env.PORT || 3000}`);
 });
